@@ -34,7 +34,13 @@ namespace MyConsole
                 db.Open();
                 using(SqlCommand cmd = new SqlCommand("Select GETDATE()", db))
                 {
-                    Console.WriteLine(cmd);
+                    var ob = cmd.ExecuteScalar();
+                    if (ob != null)
+                    {
+                        Console.WriteLine(ob.ToString());
+                    }
+                    else
+                        Console.WriteLine("ERR OBJ EMPTY");
                 }
                 Console.WriteLine();
                 db.Close();
