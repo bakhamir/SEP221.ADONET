@@ -47,11 +47,31 @@ namespace MyConsole
             }
         }
 
+        static void getcity()
+        {
+            using (SqlConnection db = new SqlConnection(connectionstring1))
+            {
+                db.Open();
+                using (SqlCommand cmd = new SqlCommand("select id, name from city", db))
+                {
+                   var ob = cmd.ExecuteReader();
+                    while (ob.Read())
+                    {
+                        Console.WriteLine($"{ob[0].ToString()} {ob["NAME"].ToString()}");
+                    } 
+
+                }
+                Console.WriteLine();
+                db.Close();
+            }
+        }
+
         static void Main(string[] args)
         {
             //testconnection();
-            //testconnection1();
-            getdate();
+            ////testconnection1();
+            //getdate();
+            getcity();
             Console.WriteLine("Hello, World!");
         }
 
