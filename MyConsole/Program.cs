@@ -10,6 +10,7 @@ namespace MyConsole
         static string conStr_1 = "Server=206-P;Database=testDB;Trusted_Connection=True;";
         static string conStr_2 = "Server=206-P;Database=testDB;User Id=user1;Password=1234;";
        static SqlConnection db2 =  null;
+         static string conStr_3 = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\БахытжановА\Documents\testdb.mdf;Integrated Security=True;Connect Timeout=30";
 
         static void TestConnection()
         {
@@ -138,9 +139,10 @@ namespace MyConsole
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("id", id);
-                    cmd.Parameters.Add("@count", SqlDbType.NVarChar, 1000).Direction = ParameterDirection.ReturnValue;
-                    cmd.ExecuteNonQuery();
-                    if (cmd.Parameters["name"].Value != null)
+                    cmd.Parameters.Add("count", SqlDbType.NVarChar, 1000).Direction =
+                    ParameterDirection.ReturnValue;
+                    cmd.ExecuteNonQuery();                                          
+                    if (cmd.Parameters["count"].Value != null)
                         Console.WriteLine(cmd.Parameters["name"].Value.ToString());
                 }
 
@@ -148,10 +150,10 @@ namespace MyConsole
         }
         static void Main(string[] args)
         {
-            db2 = new SqlConnection(conStr_2)
+            db2 = new SqlConnection(conStr_3);
 
             db2.Open();
-
+            pStudentLenById(1);
             db2.Close();
             //TestConnection();
             //getDate();
