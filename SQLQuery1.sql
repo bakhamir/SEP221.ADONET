@@ -65,3 +65,29 @@ name nvarchar(500),
 ) 
 select * from faculty
    
+   create proc pGetStudentsAndFaculties
+   as
+   select * from student 
+   select * from faculty
+
+   create proc sqrtEquationSolver
+   @a int,
+   @b int,
+   @c int
+   as
+   declare @Discriminant int 
+   set @Discriminant = (@b * @b) - (4 * @a * @c)
+   if(@Discriminant < 0)
+		select 'решений нет!'
+   if(@Discriminant = 0)
+		select (-1 * @b) / (@a * 2)
+	if(@Discriminant > 0)
+	begin
+		select (-1 * @b) + sqrt(@Discriminant) / (@a * 2)
+		select (-1 * @b) - sqrt(@Discriminant) / (@a * 2)
+	end
+
+
+	declare @answers int
+
+	exec  sqrtEquationSolver 1 ,5, 3

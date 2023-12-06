@@ -145,20 +145,67 @@ namespace MyConsole
                     if (cmd.Parameters["count"].Value != null)
                         Console.WriteLine(cmd.Parameters["name"].Value.ToString());
                 }
+        }
+        static void pGetStudentsAndFaculties()
+        {
+            using (SqlCommand cmd = new SqlCommand("pGetStudentsAndFaculties", db2))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                var dr = cmd.ExecuteReader();
+                dr.NextResult();
+                while (dr.Read())
+                {
+                    Console.WriteLine(dr[1].ToString());
+                }
+                dr.NextResult();
+                while (dr.Read())
+                {
+                    Console.WriteLine(dr[1].ToString());
+                }
+                //    DataSet ds = new DataSet();
+                //ds.Load(cmd.ExecuteReader,LoadOption.Upsert,);
+                //cmd.ExecuteReader();
+            }
+        }
+        static void sqrtEquationSolver(int a,int b, int c)
+        {
+            using (SqlCommand cmd = new SqlCommand("sqrtEquationSolver", db2))
+            {
+
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("a", a);
+                //cmd.Parameters.AddWithValue("b", b);
+                //cmd.Parameters.AddWithValue("c", c);
+                //var dr = cmd.ExecuteReader();
+                //if (!dr.HasRows)
+                //{
+                //    Console.WriteLine("NO DATA");
+                //    return;
+                //}
+                //while (dr.Read())
+                //{
+                //    Console.WriteLine($"{dr[0].ToString()} {dr["NAME"].ToString()}");
+                //}
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("a", a);
+                cmd.Parameters.AddWithValue("b", b);
+                cmd.Parameters.AddWithValue("c", c);
 
 
+                cmd.ExecuteNonQuery();
+            }
         }
         static void Main(string[] args)
         {
             db2 = new SqlConnection(conStr_3);
 
             db2.Open();
-            pStudentLenById(1);
+            sqrtEquationSolver(4,3,5);
             db2.Close();
             //TestConnection();
             //getDate();
-            //getCity();
-            getCity2();
+            ////getCity();
+            //getCity2();
             //pGetCityByName("");
             //pGetCityNameById(2);
         }
