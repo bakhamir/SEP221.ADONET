@@ -9,6 +9,7 @@ namespace MyConsole
     {
         static string conStr_1 = "Server=206-P;Database=testDB;Trusted_Connection=True;";
         static string conStr_2 = "Server=206-P;Database=testDB;User Id=user1;Password=1234;";
+       static SqlConnection db2 =  null;
 
         static void TestConnection()
         {
@@ -118,19 +119,40 @@ namespace MyConsole
             {
                 db.Open();
                 using (SqlCommand cmd = new SqlCommand("pGetCityNameById", db))
-                {
+                {                                              
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("id", id);
                     cmd.Parameters.Add("name", SqlDbType.NVarChar, 1000).Direction = ParameterDirection.Output;
+                    cmd.ExecuteNonQuery();                                                                            
+                    if (cmd.Parameters["name"].Value != null)                                                 
+                        Console.WriteLine(cmd.Parameters["name"].Value.ToString());                            
+                }                                                                                             
+                db.Close();                                                                                   
+            }                                                                                                  
+        }
+        static void pStudentLenById(int id)
+        {
+
+ 
+                using (SqlCommand cmd = new SqlCommand("pStudentLenById", db2))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("id", id);
+                    cmd.Parameters.Add("@count", SqlDbType.NVarChar, 1000).Direction = ParameterDirection.ReturnValue;
                     cmd.ExecuteNonQuery();
                     if (cmd.Parameters["name"].Value != null)
                         Console.WriteLine(cmd.Parameters["name"].Value.ToString());
                 }
-                db.Close();
-            }
+
+
         }
         static void Main(string[] args)
         {
+            db2 = new SqlConnection(conStr_2)
+
+            db2.Open();
+
+            db2.Close();
             //TestConnection();
             //getDate();
             //getCity();
