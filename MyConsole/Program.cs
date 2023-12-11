@@ -7,6 +7,7 @@ namespace MyConsole
 {
     internal class Program
     {
+        
         static string conStr_1 = "Server=206-P;Database=testDB;Trusted_Connection=True;";
         static string conStr_2 = "Server=206-P;Database=testDB;User Id=user1;Password=1234;";
        static SqlConnection db2 =  null;
@@ -103,7 +104,7 @@ namespace MyConsole
                     if (!dr.HasRows)
                     {
                         Console.WriteLine("NO DATA");
-                        return;
+                        return;                      
                     }
                     while (dr.Read())
                     {
@@ -133,8 +134,6 @@ namespace MyConsole
         }
         static void pStudentLenById(int id)
         {
-
- 
                 using (SqlCommand cmd = new SqlCommand("pStudentLenById", db2))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -143,7 +142,7 @@ namespace MyConsole
                     ParameterDirection.ReturnValue;
                     cmd.ExecuteNonQuery();                                          
                     if (cmd.Parameters["count"].Value != null)
-                        Console.WriteLine(cmd.Parameters["name"].Value.ToString());
+                           Console.WriteLine(cmd.Parameters["name"].Value.ToString());
                 }
         }
         static void pGetStudentsAndFaculties()
@@ -171,28 +170,21 @@ namespace MyConsole
         {
             using (SqlCommand cmd = new SqlCommand("sqrtEquationSolver", db2))
             {
-
-                //cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("a", a);
-                //cmd.Parameters.AddWithValue("b", b);
-                //cmd.Parameters.AddWithValue("c", c);
-                //var dr = cmd.ExecuteReader();
-                //if (!dr.HasRows)
-                //{
-                //    Console.WriteLine("NO DATA");
-                //    return;
-                //}
-                //while (dr.Read())
-                //{
-                //    Console.WriteLine($"{dr[0].ToString()} {dr["NAME"].ToString()}");
-                //}
                 cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("a", a);
                 cmd.Parameters.AddWithValue("b", b);
                 cmd.Parameters.AddWithValue("c", c);
-
+                cmd.Parameters.Add("answ1", SqlDbType.Int).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("answ2", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 cmd.ExecuteNonQuery();
+
+
+ 
+                Console.WriteLine(cmd.Parameters["answ1"].Value);
+                Console.WriteLine(cmd.Parameters["answ2"].Value);
+
             }
         }
         static void Main(string[] args)
@@ -200,7 +192,7 @@ namespace MyConsole
             db2 = new SqlConnection(conStr_3);
 
             db2.Open();
-            sqrtEquationSolver(4,3,5);
+            sqrtEquationSolver(5,4,3);
             db2.Close();
             //TestConnection();
             //getDate();

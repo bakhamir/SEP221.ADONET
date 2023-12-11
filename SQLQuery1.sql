@@ -70,24 +70,29 @@ select * from faculty
    select * from student 
    select * from faculty
 
-   create proc sqrtEquationSolver
+   alter proc sqrtEquationSolver
    @a int,
    @b int,
-   @c int
+   @c int,
+   @answ1 int output,
+   @answ2 int output
    as
    declare @Discriminant int 
    set @Discriminant = (@b * @b) - (4 * @a * @c)
    if(@Discriminant < 0)
-		select 'решений нет!'
+		set @answ1 = 404
    if(@Discriminant = 0)
-		select (-1 * @b) / (@a * 2)
+		set @answ1 = (-1 * @b) / (@a * 2)
 	if(@Discriminant > 0)
 	begin
-		select (-1 * @b) + sqrt(@Discriminant) / (@a * 2)
-		select (-1 * @b) - sqrt(@Discriminant) / (@a * 2)
+		set @answ1 =  (-1 * @b) + sqrt(@Discriminant) / (@a * 2)
+		set @answ2 =  (-1 * @b) - sqrt(@Discriminant) / (@a * 2)
 	end
 
 
-	declare @answers int
+	declare @answ1 int
+	declare @answ2 int
 
-	exec  sqrtEquationSolver 1 ,5, 3
+	exec  sqrtEquationSolver 1 ,5, 3,@answ1 output,@answ2 output
+	select @answ1
+	select @answ2
